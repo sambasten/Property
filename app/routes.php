@@ -14,8 +14,21 @@ use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 
 return function (App $app) {
 	$app->get('/', function (Request $request, Response $response) {
-		$response->getBody()->write('Hello world!');
-		return $response;
+		$repository = new PropertyRepository();
+		$repositoryType = new PropertyTypeRepository();
+		$properties = $repository->findAll();
+		$propertyTpes = $repositoryType->findAll();
+		return $this->get('view')->render($response, 'index.twig', [
+			"properties" => $properties,
+			"propertyTpes" => $propertyTpes,
+		]);
+	});
+
+	$app->get('/delete/{uuid}', function (Request $request, Response $response, $args) {
+		$repository = new PropertyRepository();
+		$property = $repository->findPropertyOfUuid( $args['uuid']);
+		if ($property) $property->remove();
+		return $response->redirect('/'); 
 	});
 
 	$app->get('/api/properties', function (Request $request, Response $response) {

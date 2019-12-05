@@ -6,12 +6,12 @@ use App\Adapter\DatabaseAdapter;
 
 class Property extends DatabaseAdapter {
     /**
-     * @var int
+     * @var string
      */
     private $uuid;
 
     /**
-     * @var spring 
+     * @var string 
      */
     private $county;
 
@@ -29,7 +29,7 @@ class Property extends DatabaseAdapter {
      */
     private $description;
     /**
-     * @var spring 
+     * @var string 
      */
     private $full_details_url;
 
@@ -141,7 +141,7 @@ class Property extends DatabaseAdapter {
         return $this->number_of_bedrooms;
     } 
 
-    function getNumber_of_bathrooms(): string {
+    function getNumber_of_bathrooms(): int {
         return $this->number_of_bathrooms;
     }
 
@@ -153,7 +153,7 @@ class Property extends DatabaseAdapter {
         return $this->property_type_id;
     }
 
-    function getProperty_status(): string {
+    function getProperty_status(): int {
         return $this->property_status;
     }
 
@@ -216,7 +216,7 @@ class Property extends DatabaseAdapter {
         "' . $this->database->fliter($this->image_url) . '", ' . intval($this->number_of_bedrooms) . ',
         ' . intval($this->number_of_bathrooms) . ', ' . floatval($this->price) . ',
         ' . intval($this->property_type_id) . ', ' . intval($this->property_status) . ')';
-       $result = $this->database->query($query);
+        $result = $this->database->query($query);
         if ($result > 0) {
             $this->setUuid($result);
             return true;
@@ -242,7 +242,7 @@ class Property extends DatabaseAdapter {
 
     public function remove(): bool {
         $query = 'DELETE FROM property where uuid = "' . $this->database->fliter($this->uuid) . '"';
-        return $this->database->query($query);
+        return $this->database->query($query) > 0;
     }    
 }
 ?>

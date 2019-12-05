@@ -43,7 +43,7 @@ class DatabaseAdapter {
             } elseif (strtolower(substr(trim($statement), 0, 1)) == "u") {
                 return 1;
             } else {
-                return null;
+                return 0;
             }
         }
     }

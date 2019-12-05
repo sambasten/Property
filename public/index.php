@@ -7,6 +7,9 @@ use App\Application\ResponseEmitter\ResponseEmitter;
 use DI\ContainerBuilder;
 use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;
+use Slim\Views\Twig;
+use Slim\Views\TwigExtension;
+use Slim\Views\TwigMiddleware;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -29,6 +32,7 @@ $dependencies($containerBuilder);
 // Build PHP-DI Container instance
 $container = $containerBuilder->build();
 
+
 // Instantiate the app
 AppFactory::setContainer($container);
 $app = AppFactory::create();
@@ -41,6 +45,12 @@ $middleware($app);
 // Register routes
 $routes = require __DIR__ . '/../app/routes.php';
 $routes($app);
+
+$container->set('view', function() {
+    // Of course put correct path to your views here
+    return new Twig('../templates', ['cache' => false]);
+});
+$app->add(TwigMiddleware::createFromContainer($app));
 
 /** @var bool $displayErrorDetails */
 $displayErrorDetails = $container->get('settings')['displayErrorDetails'];

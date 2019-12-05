@@ -5,7 +5,8 @@
  );
 
  CREATE TABLE property (
-     uuid INT(11) AUTO_INCREMENT PRIMARY KEY,
+     id INT(11) AUTO_INCREMENT PRIMARY KEY,
+     uuid VARCHAR(100) NOT NULL,
      county VARCHAR(100) NOT NULL,
      country VARCHAR(100) NOT NULL,
      town VARCHAR(100) NOT NULL,

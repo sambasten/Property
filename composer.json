@@ -1,0 +1,43 @@
+{
+    "name": "samuel/property",
+    "description": "this application gather data for the third party API and build a crude interface build and manage the data",
+    "type": "project",
+    "license": "Open License",
+    "authors": [
+        {
+            "name": "Akinwumi Samuel",
+            "email": "akinwumisamuel@gmail.com"
+        }
+    ],
+    "minimum-stability": "alpha",
+    "require": {
+        "php": ">=7.1",
+        "ext-json": "*",
+        "monolog/monolog": "^1.24",
+        "php-di/php-di": "^6.0",
+        "slim/psr7": "^0.5",
+        "slim/slim": "^4.1",
+        "slim/twig-view": "^3.0@beta"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "7.0.*"
+    },
+    "config": {
+        "process-timeout": 0,
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "start": "php -S localhost:8080 -t public",
+        "test": "phpunit"
+    }
+}
