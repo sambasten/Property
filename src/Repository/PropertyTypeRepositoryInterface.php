@@ -8,5 +8,5 @@ interface PropertyTypeRepositoryInterface {
 	public function findAll(): array;
 	public function findPropertyTypeOfId(int $id): ?PropertyType;
 	public  function retrieveOneFromDB(object $result): ?PropertyType;
-    public function getFromDBRowObject(object $row): ?PropertyType;
+    public static function getFromDBRowObject(object $row): ?PropertyType;
 }

@@ -43,12 +43,12 @@ class PropertyTypeRepository extends DatabaseRowAdapter implements PropertyTypeR
     
     public  function retrieveOneFromDB(object $result): ?PropertyType {
         while ($row = mysqli_fetch_object($result)) {
-            return $this->getFromDBRowObject($row);
+            return self::getFromDBRowObject($row);
         }
         return null;
     }
 
-    public  function getFromDBRowObject(object $row): ?PropertyType {
+    public static function getFromDBRowObject(object $row): ?PropertyType {
         return new PropertyType(intval($row->id), $row->title, $row->description);
     }
 }

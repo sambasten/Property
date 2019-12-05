@@ -28,7 +28,14 @@ return function (App $app) {
 		$repository = new PropertyRepository();
 		$property = $repository->findPropertyOfUuid( $args['uuid']);
 		if ($property) $property->remove();
-		return $response->redirect('/'); 
+		return $response->withHeader('Location', '/')->withStatus(302);
+	});
+
+	$app->post('/add', function (Request $request, Response $response, $args) {
+		$uuid = md5(uniqid(rand().'', true));
+		$property =  new Property($uuid, $request->getParsedBody()['county'], $request->getParsedBody()['country'], $request->getParsedBody()['town'], $request->getParsedBody()['description'], $request->getParsedBody()['displayable_addresss'],$request->getParsedBody()['image_url'], intval($request->getParsedBody()['number_of_bedrooms']), intval($request->getParsedBody()['number_of_bathrooms']), floatval($request->getParsedBody()['price']), intval($request->getParsedBody()['property_type_id']), intval($request->getParsedBody()['property_status']));
+		$property->add();
+		return $response->withHeader('Location', '/')->withStatus(302);
 	});
 
 	$app->get('/api/properties', function (Request $request, Response $response) {
@@ -47,6 +54,6 @@ return function (App $app) {
 			$result = !$repository->findPropertyOfUuid($properties[$i]->uuid) ? $property->add() : $property->update();
 
 		}      
-		return true;
+		return $response->withHeader('Location', '/')->withStatus(302);
 	});
 };
