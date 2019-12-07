@@ -17,7 +17,7 @@ return function (App $app) {
 		$repository = new PropertyRepository();
 		$repositoryType = new PropertyTypeRepository();
 		$properties = $repository->findAll();
-		$propertyTpes = $repositoryType->findAll();
+    $propertyTpes = $repositoryType->findAll();
 		return $this->get('view')->render($response, 'index.twig', [
 			"properties" => $properties,
 			"propertyTpes" => $propertyTpes,
@@ -34,7 +34,7 @@ return function (App $app) {
 	$app->post('/add', function (Request $request, Response $response, $args) {
 		$uuid = md5(uniqid(rand().'', true));
 		$property =  new Property($uuid, $request->getParsedBody()['county'], $request->getParsedBody()['country'], $request->getParsedBody()['town'], $request->getParsedBody()['description'], $request->getParsedBody()['displayable_addresss'],$request->getParsedBody()['image_url'], intval($request->getParsedBody()['number_of_bedrooms']), intval($request->getParsedBody()['number_of_bathrooms']), floatval($request->getParsedBody()['price']), intval($request->getParsedBody()['property_type_id']), intval($request->getParsedBody()['property_status']));
-		$property->add();
+    $property->add();
 		return $response->withHeader('Location', '/')->withStatus(302);
 	});
 
@@ -44,7 +44,6 @@ return function (App $app) {
 		$repository = new PropertyRepository();
 		$repositoryType = new PropertyTypeRepository();
 		$properties = $data->data;
-
 		for ($i = 0; $i < count($properties); $i++) {
 			$propertyTypeFromJSON = $properties[$i]->property_type;
 			$propertyType = new PropertyType(intval($propertyTypeFromJSON->id), $propertyTypeFromJSON->title, $propertyTypeFromJSON->description);

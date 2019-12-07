@@ -1,8 +1,11 @@
 <?php
 declare(strict_types=1);
 
+
 namespace App\Model;
 use App\Adapter\DatabaseAdapter;
+use PDO;
+
 
 class Property extends DatabaseAdapter {
     /**
@@ -97,7 +100,7 @@ class Property extends DatabaseAdapter {
         $this->country = $country;
         $this->town  = $town;
         $this->description = $description;
-        $this->displayable_addresss = $displayable_address;
+        $this->displayable_address = $displayable_address;
         $this->image_url= $image_url; 
         $this->number_of_bedrooms = $number_of_bedrooms;
         $this->number_of_bathrooms = $number_of_bathrooms;
@@ -157,6 +160,8 @@ class Property extends DatabaseAdapter {
         return $this->property_status;
     }
 
+    
+
     /**
     *Set methods
     */
@@ -181,7 +186,7 @@ class Property extends DatabaseAdapter {
     }
 
     function setDisplayable_address(): void {
-        $this->displayable_address = $displayable_addresss;
+        $this->displayable_address = $displayable_address;
     }
 
     function setImage_url(): void {
@@ -209,39 +214,43 @@ class Property extends DatabaseAdapter {
     }
 
     public function add(): bool {
-        $query = 'INSERT INTO property (uuid, county, country, town, description, displayable_address, image_url, number_of_bedrooms, number_of_bathrooms, price, property_type_id, property_status)'
-        . ' VALUES("' . $this->database->fliter($this->uuid) . '", "' . $this->database->fliter($this->county) . '",
-        "' . $this->database->fliter($this->country) . '", "' . $this->database->fliter($this->town) . '",
-        "' . $this->database->fliter($this->description) . '", "' . $this->database->fliter($this->displayable_addresss) . '",
-        "' . $this->database->fliter($this->image_url) . '", ' . intval($this->number_of_bedrooms) . ',
-        ' . intval($this->number_of_bathrooms) . ', ' . floatval($this->price) . ',
-        ' . intval($this->property_type_id) . ', ' . intval($this->property_status) . ')';
-        $result = $this->database->query($query);
-        if ($result > 0) {
+      try{
+        $query = 'INSERT INTO property (uuid, county, country, town, description, displayable_address, image_url, number_of_bedrooms, number_of_bathrooms, price, property_type_id, property_status)
+         VALUES(?,?,?,?,?,?,?,?,?,?,?,?)';
+        $params = array($this->uuid, $this->county, $this->country,$this->town, $this->description, 
+        $this->displayable_address, $this->image_url, $this->number_of_bedrooms, $this->number_of_bathrooms, $this->price,
+        $this->property_type_id, $this->property_status);
+        $result = $this->database->query($query, $params);
+       
+        if ($result) {
             $this->setUuid($result);
             return true;
+  
         }
-        return false;
+        else {
+          return false;
+        
+      }
+    }
+    catch(PDOException $exception){
+      die('ERROR: ' . $exception->getMessage());
+  }
     }
 
     public function update(): bool {
-        $query = 'UPDATE property set county = "' . $this->database->fliter($this->county) . '",
-        country = "' . $this->database->fliter($this->country) . '",
-        town = "' . $this->database->fliter($this->town) . '",
-        description = "' . $this->database->fliter($this->description) . '",
-        displayable_address =  "' . $this->database->fliter($this->displayable_addresss) . '",
-        image_url = "' . $this->database->fliter($this->image_url) . '",
-        number_of_bedrooms = ' . intval($this->number_of_bedrooms) . ',
-        number_of_bathrooms = ' . intval($this->number_of_bathrooms) . ',
-        price = ' . floatval($this->price) . ',
-        property_type_id = ' . intval($this->property_type_id) . ',
-        property_status = ' . intval($this->property_status) . ' 
-        where uuid = "' . $this->database->fliter($this->uuid) . '"';
-        return $this->database->query($query) > 0;
+        $query = "UPDATE property SET county= ? , country= ?, town=?, description=? , displayable_address= ?, image_url=?, number_of_bedrooms=?, number_of_bathrooms=?, price=?, property_type_id= ?, property_status=?
+        WHERE uuid =?";
+        
+        $params = array($this->county, $this->country,$this->town, $this->description, 
+        $this->displayable_address, $this->image_url, $this->number_of_bedrooms, $this->number_of_bathrooms, $this->price,
+        $this->property_type_id, $this->property_status, $this->uuid);
+        
+        $result = $this->database->query($query, $params);
+        return $result > 0;
     }    
 
     public function remove(): bool {
-        $query = 'DELETE FROM property where uuid = "' . $this->database->fliter($this->uuid) . '"';
+        $query = "DELETE FROM property WHERE uuid = $this->uuid";
         return $this->database->query($query) > 0;
     }    
 }

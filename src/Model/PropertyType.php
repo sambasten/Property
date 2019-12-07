@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model;
 use App\Adapter\DatabaseAdapter;
+use PDO;
 
 class PropertyType {
     /**
@@ -60,22 +61,21 @@ class PropertyType {
     }
 
     public function add(): bool {
-        $query = 'INSERT INTO property_type (id, title, description)'
-        . ' VALUES(' . intval($this->id) . ', "' . $this->database->fliter($this->title) . '",
-        "' . $this->database->fliter($this->description) . '")';
-        $result = $this->database->query($query);
+        $query = "INSERT INTO `property_type` (id, `title`, `description`) VALUES (?, ?,?)";
+        $params = array($this->id,  $this->title, $this->description);
+        $result = $this->database->query($query, $params);
         if ($result > 0) {
-            $this->setId($result);
+            $this->setId((int)$result);
             return true;
         }
         return false;
     }
 
     public function update(): bool {
-        $query = 'UPDATE property_type set title = "' . $this->database->fliter($this->title) . '",
-        description = "' . $this->database->fliter($this->description) . '"
-        where id = ' . intval($this->id) ;
-        return $this->database->query($query) > 0;
+        $query = "UPDATE property_type SET title = ?, description=? WHERE id= ?";
+        $params = array($this->title, $this->description, $this->id);
+        $result = $this->database->query($query, $params);
+        return $result>0;
     }    
 
 

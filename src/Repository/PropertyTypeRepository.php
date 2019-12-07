@@ -6,6 +6,7 @@ use App\Adapter\DatabaseAdapter;
 use App\Adapter\DatabaseRowAdapter;
 use App\Model\PropertyType;
 use App\Repository\PropertyTypeRepositoryInterface;
+use PDO;
 
 class PropertyTypeRepository extends DatabaseRowAdapter implements PropertyTypeRepositoryInterface
 {
@@ -28,7 +29,7 @@ class PropertyTypeRepository extends DatabaseRowAdapter implements PropertyTypeR
     public function findAll(): array
     {
         $properties = array();
-        $result = $this->database->selectQuery('SELECT * FROM property_type ORDER by id ASC');
+        $result = $this->database->query('SELECT * FROM property_type ORDER by id ASC');
         return $this->retrieveAllFromDB($result);
     }
 
@@ -37,12 +38,12 @@ class PropertyTypeRepository extends DatabaseRowAdapter implements PropertyTypeR
      */
     public function findPropertyTypeOfId(int $id): ?PropertyType
     {
-        $result = $this->database->selectQuery('SELECT * FROM property_type  where id = ' . $id);
+        $result = $this->database->query('SELECT * FROM property_type  where id =  ?', array($id));
         return $this->retrieveOneFromDB($result);
     }
     
-    public  function retrieveOneFromDB(object $result): ?PropertyType {
-        while ($row = mysqli_fetch_object($result)) {
+    public  function retrieveOneFromDB(array $result): ?PropertyType {
+        foreach( $result as  $row) {
             return self::getFromDBRowObject($row);
         }
         return null;
@@ -51,4 +52,6 @@ class PropertyTypeRepository extends DatabaseRowAdapter implements PropertyTypeR
     public static function getFromDBRowObject(object $row): ?PropertyType {
         return new PropertyType(intval($row->id), $row->title, $row->description);
     }
+
+
 }

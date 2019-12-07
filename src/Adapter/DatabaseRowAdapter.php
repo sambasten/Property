@@ -2,12 +2,14 @@
 declare(strict_types=1);
 
 namespace App\Adapter;
+use PDO;
+
 
 abstract class DatabaseRowAdapter {
  
-    public function retrieveAllFromDB(object $result): ?array {
+    public function retrieveAllFromDB(array $result): ?array {
         $data = array();
-         while ($row = mysqli_fetch_object($result)) {
+         foreach ($result as $row) {
            $data[] = self::getFromDBRow($row);
         }
         return $data;
@@ -17,7 +19,5 @@ abstract class DatabaseRowAdapter {
         $className = get_called_class();
         if (is_object($row))
             return call_user_func($className . "::getFromDBRowObject", $row);
-        if (is_array($row))
-            return call_user_func($className . "::getFromDBRowArray", $row);
     }
 }

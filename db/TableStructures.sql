@@ -21,6 +21,5 @@
      number_of_bathrooms VARCHAR(100) NOT NULL,
      price float(10, 2) NOT NULL,
      property_type_id INT(11) NOT NULL,
-     property_status INT(1) DEFAULT 0 COMMENT '0. For Sale 1. For rent',
-     FOREIGN KEY (property_type_id) REFERENCES property_type(id) ON DELETE CASCADE ON UPDATE CASCADE
+     property_status INT(1) DEFAULT 0 COMMENT '0. For Sale 1. For rent'
  );

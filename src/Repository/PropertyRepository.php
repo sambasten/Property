@@ -6,6 +6,7 @@ use App\Adapter\DatabaseAdapter;
 use App\Adapter\DatabaseRowAdapter;
 use App\Model\Property;
 use App\Repository\PropertyRepositoryInterface;
+use PDO;
 
 class PropertyRepository extends DatabaseRowAdapter implements PropertyRepositoryInterface
 {
@@ -25,10 +26,9 @@ class PropertyRepository extends DatabaseRowAdapter implements PropertyRepositor
     /**
      * {@inheritdoc}
      */
-    public function findAll(): array
-    {
+    public function findAll(): array {
         $properties = array();
-        $result = $this->database->selectQuery('SELECT * FROM property ORDER by uuid ASC');
+        $result = $this->database->query('SELECT * FROM property ORDER by id ASC');
         return $this->retrieveAllFromDB($result);
     }
 
@@ -37,14 +37,12 @@ class PropertyRepository extends DatabaseRowAdapter implements PropertyRepositor
      */
     public function findPropertyOfUuid(string $uuid): ?Property
     {
-        $result = $this->database->selectQuery('SELECT * FROM property  where uuid = "' . $uuid . '"'); 
+        $result = $this->database->query('SELECT * FROM property  where uuid = ?', array($uuid));
         return $this->retrieveOneFromDB($result);
     }
     
-    public  function retrieveOneFromDB(object $result): ?Property {
-
-        
-        while ($row = mysqli_fetch_object($result)) {
+    public  function retrieveOneFromDB(array $result): ?Property {    
+        foreach($result as $row) {
             return self::getFromDBRowObject($row);
         }
         return null;
@@ -52,5 +50,7 @@ class PropertyRepository extends DatabaseRowAdapter implements PropertyRepositor
 
     public static function getFromDBRowObject(object $row): ?Property {
         return new Property($row->uuid, $row->county, $row->country, $row->town, $row->description, $row->displayable_address, $row->image_url, intval($row->number_of_bedrooms), intval($row->number_of_bathrooms), floatval($row->price), intval($row->property_type_id), intval($row->property_status));
-    }
+       
+      }
+    
 }

@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+
 use App\Application\Handlers\HttpErrorHandler;
 use App\Application\Handlers\ShutdownHandler;
 use App\Application\ResponseEmitter\ResponseEmitter;
@@ -12,6 +13,11 @@ use Slim\Views\TwigExtension;
 use Slim\Views\TwigMiddleware;
 
 require __DIR__ . '/../vendor/autoload.php';
+// $Loader = (new josegonzalez\Dotenv\Loader('path/to/.env'))
+//               ->parse()
+//               ->toEnv();
+
+// var_dump(getenv('server')); exit;
 
 // Instantiate PHP-DI ContainerBuilder
 $containerBuilder = new ContainerBuilder();
