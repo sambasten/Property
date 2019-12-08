@@ -45,7 +45,7 @@
 		}
 	</style>
 	<script>
-		window.console = window.console || function(t) {};
+	window.console = window.console || function(t) {};
 	</script>
 	<script>
 		if (document.location.search.match(/type=embed/gi)) {
@@ -126,7 +126,7 @@
 	<script src='https://cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.js'></script>
 	<script src='https://cdn.datatables.net/responsive/1.0.4/js/dataTables.responsive.js'></script>
 	<script id="rendered-js">
-		$('table').DataTable();
+		$('table').DataTable({paging:false});
 	</script>
 	
 	<div class="modal fade" id= "add-property"tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">

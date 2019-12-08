@@ -26,7 +26,7 @@ return function (App $app) {
   });*/
   $app->get('/', function (Request $request, Response $response) {
 
-    $jsonContent = file_get_contents('http://trialapi.craig.mtcdevserver.com/api/properties?api_key=3NLTTNlXsi6rBWl7nYGluOdkl2htFHug');
+    $jsonContent = file_get_contents('http://trialapi.craig.mtcdevserver.com//api/properties?page%5Bsize%5D=100&api_key=3NLTTNlXsi6rBWl7nYGluOdkl2htFHug&page%5Bnumber%5D=1');
 		$data = json_decode($jsonContent);
 		$repository = new PropertyRepository();
 		$repositoryType = new PropertyTypeRepository();

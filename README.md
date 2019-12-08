@@ -13,6 +13,6 @@
 ### Launch the php inbuilt server with the command 
 php -S localhost:8080 -t public
 
-###After that, open `http://localhost:8080` in your browser.
+### After that, open `http://localhost:8080` in your browser.
 
 
