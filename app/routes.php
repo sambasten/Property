@@ -13,6 +13,7 @@ use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 
 return function (App $app) {
+  /*
 	$app->get('/', function (Request $request, Response $response) {
 		$repository = new PropertyRepository();
 		$repositoryType = new PropertyTypeRepository();
@@ -22,7 +23,30 @@ return function (App $app) {
 			"properties" => $properties,
 			"propertyTpes" => $propertyTpes,
 		]);
-	});
+  });*/
+  $app->get('/', function (Request $request, Response $response) {
+
+    $jsonContent = file_get_contents('http://trialapi.craig.mtcdevserver.com/api/properties?api_key=3NLTTNlXsi6rBWl7nYGluOdkl2htFHug');
+		$data = json_decode($jsonContent);
+		$repository = new PropertyRepository();
+		$repositoryType = new PropertyTypeRepository();
+		$properties = $data->data;
+		for ($i = 0; $i < count($properties); $i++) {
+			$propertyTypeFromJSON = $properties[$i]->property_type;
+			$propertyType = new PropertyType(intval($propertyTypeFromJSON->id), $propertyTypeFromJSON->title, $propertyTypeFromJSON->description);
+			$result = !$repositoryType->findPropertyTypeOfId($propertyTypeFromJSON->id) ? $propertyType->add() : $propertyType->update();
+			$property_status = $properties[$i]->type == 'sale' ? Property::$FOR_SALE : Property::$FOR_RENT;
+			$property = new Property($properties[$i]->uuid, $properties[$i]->county, $properties[$i]->country, $properties[$i]->town, $properties[$i]->description, $properties[$i]->address, $properties[$i]->image_full, intval($properties[$i]->num_bedrooms), intval($properties[$i]->num_bathrooms), floatval($properties[$i]->price), intval($properties[$i]->property_type_id), $property_status);
+			$result = !$repository->findPropertyOfUuid($properties[$i]->uuid) ? $property->add() : $property->update();
+    }  
+    $properties = $repository->findAll();
+    $propertyTpes = $repositoryType->findAll();
+    return $this->get('view')->render($response, 'index.twig', [
+			"properties" => $properties,
+			"propertyTpes" => $propertyTpes,
+    ]);    
+  });
+
 
 	$app->get('/delete/{uuid}', function (Request $request, Response $response, $args) {
 		$repository = new PropertyRepository();
@@ -38,14 +62,15 @@ return function (App $app) {
 		return $response->withHeader('Location', '/')->withStatus(302);
 	});
   
-  $app->put('/edit/{uuid}', function (Request $request, Response $response, $args) {
+  $app->post('/edit/{uuid}', function (Request $request, Response $response, $args) {
     //$uuid = md5(uniqid(rand().'', true));
     $repository = new PropertyRepository();
 		$property = $repository->findPropertyOfUuid( $args['uuid']);
     if($property) $property->update();
+    
 		return $response->withHeader('Location', '/')->withStatus(302);
 	});
-
+/* 
 	$app->get('/api/properties', function (Request $request, Response $response) {
 		$jsonContent = file_get_contents('http://trialapi.craig.mtcdevserver.com/api/properties?api_key=3NLTTNlXsi6rBWl7nYGluOdkl2htFHug');
 		$data = json_decode($jsonContent);
@@ -62,5 +87,5 @@ return function (App $app) {
 
 		}      
 		return $response->withHeader('Location', '/')->withStatus(302);
-	});
+	});*/
 };

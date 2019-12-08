@@ -4,24 +4,34 @@ namespace App\Adapter;
 
 use PDO;
 
+// $host = getenv('HOST');
+// $port = getenv('PORT');
+// $db   = getenv('DATABASE');
+// $user = getenv('USERNAME');
+// $pass = getenv('PASSWORD');
+// define('CONNECTION_STRING', env('CONNECTION_STRING'));
+// define('USERNAME', env('USERNAME'));
+// define('PASSWORD', env('PASSWORD'));
+
+
 class DatabaseAdapter {
 
     const CONNECTION_STRING ="mysql:host=localhost;dbname=property_db"; 
     const USERNAME="root";
     const PASSWORD = "";
+
     private $connection;
 
     public function __construct() {
-        $this->openConnection();
-
+        
+      $this->openConnection();
     }
 
-
     public function openConnection(){
-   
       if (!isset($this->connection)) {
         try {
             $this->connection= new PDO(self::CONNECTION_STRING, self::USERNAME, self::PASSWORD);
+            //$this->connection= new PDO("mysql:host=$host;dbname=$db", $user, $pass);
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $ex) {
             throw $ex;
