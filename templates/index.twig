@@ -109,7 +109,7 @@
 								For Rent
 							{%- endif -%}</td>
 							<td>
-								<button class="btn btn-primary"> Edit</button> 
+								<a class="btn btn-primary" " data-toggle="modal" data-target="#edit-property "href="/edit/{{property.uuid}}"> Edit</a> 
 								<a class="btn btn-danger" href="/delete/{{ property.uuid }}"> Delete</a>
 							</td>
 						</tr>
@@ -146,6 +146,137 @@
 				<div class="modal-body">
 					<div class= "body-content">
 						<form method="post" action="add">
+							<div class="form-row">
+								<div class="form-group col-md-4">
+									<label for="inputCounty">County</label>
+									<input type="text" class="form-control" id="inputCounty" name="county" placeholder="Enter a County">
+									<div class="invalid-feedback">
+										Please enter a valid County
+									</div>
+								</div>
+								<div class="form-group col-md-4">
+									<label for="inputCountry">Country</label>
+									<input type="text" class="form-control" id="inputCountry" name="country"  placeholder="Enter a Country">
+									<div class="invalid-feedback">
+										Please enter a valid Country
+									</div>
+								</div>
+								<div class="form-group col-md-4">
+									<label for="inputTown">Town</label>
+									<input type="text" class="form-control" id="inputTown" placeholder="Enter a Town" name="town" >
+									<div class="invalid-feedback">
+										Please enter a valid Town
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group col-md-12">
+								<label for="inputDescription">Description</label>
+								<textarea class="form-control" id="inputDescription" name="description"  placeholder="Required example description" required></textarea>
+								<div class="invalid-feedback">
+									Please enter a message in the textarea.
+								</div>
+							</div>
+
+							<div class="form-group col-md-12">
+								<label for="inputAddress">Address</label>
+								<input type="text" class="form-control" id="inputAddress"  name="displayable_addresss" placeholder="1234 Main St">
+								<div class="invalid-feedback">
+									Please Enter a valid Address
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="exampleFormControlFile1">Image Upload</label>
+								<input type="file" class="form-control-file" id="exampleFormControlFile1" name="image_url" >
+							</div>
+
+							<div class="form-row">
+								<div class="form-group col-md-4">
+									<label for="inputNumberofBeds">Number of Bedrooms</label>
+									<select id="inputNumberofBeds" class="form-control" name="number_of_bedrooms">
+										<option selected>1</option>
+										<option>2</option>
+										<option>3</option>
+										<option>4</option>
+										<option>5</option>
+									</select>
+								</div>
+								<div class="form-group col-md-4">
+									<label for="inputNumberofBaths">Number of Bathrooms</label>
+									<select id="inputNumberofBathrooms" class="form-control" name="number_of_bathrooms">
+										<option selected>1</option>
+										<option>2</option>
+										<option>3</option>
+										<option>4</option>
+										<option>5</option>
+									</select>
+								</div>
+								<div class="form-group col-md-4">
+									<label for="inputPrice">Price</label>
+									<input type="number" class="form-control" id="inputPrice" placeholder="Enter a Price" name="price">
+									<div class="invalid-feedback">
+										Please enter a valid Price
+									</div>
+								</div>
+
+
+								<div class="form-group col-md-6">
+									<label for="inputPropertyType">Property Type</label>
+									<select id="inputPropertyType" class="form-control" name="property_type_id">
+										<option selected>1</option>
+										<option>2</option>
+										<option>3</option>
+										<option>4</option>
+										<option>5</option>
+									</select>
+								</div>
+								<div class="form-group col-md-6">
+									<label for="inputPropertyStatus">Property Status</label>
+									<select id="inputPropertyStatus" class="form-control" name="property_status">
+										<option selected>Sale</option>
+										<option>Rent</option>
+									</select>
+								</div>
+							</div>
+
+
+							<button type="submit" class="btn btn-primary">Submit</button>
+
+						</form>
+					</div>
+				</div>
+				<!-- Modal Footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+				</div>
+
+			</div>
+			<!-- Modal Content: ends -->
+
+		</div>
+
+	</div>
+
+
+  <!--Modal for Editing--->
+	<div class="modal fade" id= "edit-property"tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+
+		<div class="modal-dialog">
+
+			<!-- Modal Content: begins -->
+			<div class="modal-content" style="z-index: 1000000000000000">
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="gridSystemModalLabel">Edit Property</h4>
+				</div>
+
+				<!-- Modal Body -->  
+				<div class="modal-body">
+					<div class= "body-content">
+						<form method="post" action="edit">
 							<div class="form-row">
 								<div class="form-group col-md-4">
 									<label for="inputCounty">County</label>

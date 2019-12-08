@@ -165,7 +165,7 @@ class Property extends DatabaseAdapter {
     /**
     *Set methods
     */
-    function setUuid(int $uuid): void {
+    function setUuid(string $uuid): void {
         $this->uuid = $uuid;
     }
 
@@ -250,8 +250,11 @@ class Property extends DatabaseAdapter {
     }    
 
     public function remove(): bool {
-        $query = "DELETE FROM property WHERE uuid = $this->uuid";
-        return $this->database->query($query) > 0;
+        $query = "DELETE FROM property WHERE uuid = ?";
+    
+        $params = array($this->uuid);
+     
+        return $this->database->query($query, $params) > 0;
     }    
 }
 ?>

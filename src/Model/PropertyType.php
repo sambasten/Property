@@ -78,5 +78,11 @@ class PropertyType {
         return $result>0;
     }    
 
+    public function remove(): bool {
+      $query = "DELETE * FROM property_type WHERE id = ?";
+      $params = array($id);
+      return $this->database->query($query, $params) > 0;
+  }  
+
 
 }

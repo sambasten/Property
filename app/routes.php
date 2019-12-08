@@ -37,6 +37,14 @@ return function (App $app) {
     $property->add();
 		return $response->withHeader('Location', '/')->withStatus(302);
 	});
+  
+  $app->put('/edit/{uuid}', function (Request $request, Response $response, $args) {
+    //$uuid = md5(uniqid(rand().'', true));
+    $repository = new PropertyRepository();
+		$property = $repository->findPropertyOfUuid( $args['uuid']);
+    if($property) $property->update();
+		return $response->withHeader('Location', '/')->withStatus(302);
+	});
 
 	$app->get('/api/properties', function (Request $request, Response $response) {
 		$jsonContent = file_get_contents('http://trialapi.craig.mtcdevserver.com/api/properties?api_key=3NLTTNlXsi6rBWl7nYGluOdkl2htFHug');
