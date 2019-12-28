@@ -9,8 +9,10 @@
 
 ### Edit db connection parameters in database adapter file at src/Adapter/DatabasAdapter.php
 
+### Switch to public directory and  run script property.php with command
+php property.php
 
-### Launch the php inbuilt server with the command 
+### Switch back to Property directory and Launch the php inbuilt server with the command 
 php -S localhost:8080 -t public
 
 ### After that, open `http://localhost:8080` in your browser.
