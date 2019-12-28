@@ -221,8 +221,12 @@ class Property extends DatabaseAdapter {
         $this->displayable_address, $this->image_url, $this->number_of_bedrooms, $this->number_of_bathrooms, $this->price,
         $this->property_type_id, $this->property_status);
         $result = $this->database->query($query, $params);
+<<<<<<< HEAD
         
         //return $result>0;
+=======
+       
+>>>>>>> a2172987354697ef560d635250d46822eeb11730
         if ($result) {
             $this->setUuid($result);
             return true;
