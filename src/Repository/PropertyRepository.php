@@ -52,12 +52,4 @@ class PropertyRepository extends DatabaseRowAdapter implements PropertyRepositor
         return new Property($row->uuid, $row->county, $row->country, $row->town, $row->description, $row->displayable_address, $row->image_url, intval($row->number_of_bedrooms), intval($row->number_of_bathrooms), floatval($row->price), intval($row->property_type_id), intval($row->property_status));
        
       }
-<<<<<<< HEAD
-
-    public function refreshDB(){
-          $this->database->refreshConnection();
-      }
-=======
->>>>>>> a2172987354697ef560d635250d46822eeb11730
-    
 }

@@ -215,31 +215,23 @@ class Property extends DatabaseAdapter {
 
     public function add(): bool {
       try{
-        $query = 'INSERT INTO property (uuid, county, country, town, description, displayable_address, image_url, number_of_bedrooms, number_of_bathrooms, price, property_type_id, property_status)
-         VALUES(?,?,?,?,?,?,?,?,?,?,?,?)';
-        $params = array($this->uuid, $this->county, $this->country,$this->town, $this->description, 
-        $this->displayable_address, $this->image_url, $this->number_of_bedrooms, $this->number_of_bathrooms, $this->price,
-        $this->property_type_id, $this->property_status);
-        $result = $this->database->query($query, $params);
-<<<<<<< HEAD
-        
-        //return $result>0;
-=======
-       
->>>>>>> a2172987354697ef560d635250d46822eeb11730
-        if ($result) {
-            $this->setUuid($result);
-            return true;
-  
+            $query = 'INSERT INTO property (uuid, county, country, town, description, displayable_address, image_url, number_of_bedrooms, number_of_bathrooms, price, property_type_id, property_status)
+            VALUES(?,?,?,?,?,?,?,?,?,?,?,?)';
+            $params = array($this->uuid, $this->county, $this->country,$this->town, $this->description, 
+            $this->displayable_address, $this->image_url, $this->number_of_bedrooms, $this->number_of_bathrooms, $this->price,
+            $this->property_type_id, $this->property_status);
+            $result = $this->database->query($query, $params);
+            if ($result) {
+                $this->setUuid($result);
+                return true;
+            }
+            else {
+                return false;
+            }
         }
-        else {
-          return false;
-        
-      }
-    }
-    catch(PDOException $exception){
-      die('ERROR: ' . $exception->getMessage());
-  }
+        catch(PDOException $exception){
+            die('ERROR: ' . $exception->getMessage());
+        }
     }
 
     public function update(): bool {
@@ -262,4 +254,3 @@ class Property extends DatabaseAdapter {
         return $this->database->query($query, $params) > 0;
     }    
 }
-?>
